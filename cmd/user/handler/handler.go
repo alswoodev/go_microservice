@@ -106,6 +106,30 @@ func (h *UserHandler) Login(c *gin.Context) {
 	})
 }
 
+func (h *UserHandler) GetMyInfo (c *gin.Context) {
+	// context of `user_id` is stored as int
+	uid, isExist := c.Get("user_id")
+	if !isExist {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized",
+		})
+		return
+	}
+
+	user, err := h.UserUsecase.GetUserByID(c.Request.Context(), int64(uid.(int))) // uid -> type assertion -> type conversion
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error_message": "Unauthorized",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"name": user.Name,
+		"email": user.Email,
+	})
+}
+
 
 func (h *UserHandler) Ping (c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status":"ok"})

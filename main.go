@@ -28,7 +28,7 @@ func main() {
 	port := cfg.App.Port
 	router := gin.Default()
 
-	routes.SetupRoutes(router, *userHandler)
+	routes.SetupRoutes(router, *userHandler, cfg.Keys.JWTKey)
 
 	router.Run(fmt.Sprintf(":%s", port)) // :{port} -> :8080
 	log.Logger.Printf("Server running on port: %s", port)
