@@ -4,6 +4,7 @@ type Config struct {
 	App      AppConfig `mapstructure:"app" validate:"required"`
 	Database DatabaseConfig `mapstructure:"database" validate:"required"`
 	Redis    RedisConfig `mapstructure:"redis" validate:"required"`
+	Keys     KeysConfig `mapstructure:"keys" validate:"required"`
 }
 
 type AppConfig struct{
@@ -22,4 +23,8 @@ type RedisConfig struct{
 	Host     string `mapstructure:"host" validate:"required"`
 	Port     string `mapstructure:"port" validate:"required"`
 	Password string `mapstructure:"password" validate:"required"`
+}
+
+type KeysConfig struct{
+	JWTKey string `mapstructure:"jwtkey" validate:"required"`
 }

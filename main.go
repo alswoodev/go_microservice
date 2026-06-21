@@ -22,7 +22,7 @@ func main() {
 
 	userRepository := repository.NewUserRepository(redis, db)
 	userService := service.NewUserService(userRepository)
-	userUsecase := usecase.NewUserUsecase(userService)
+	userUsecase := usecase.NewUserUsecase(userService, cfg.Keys.JWTKey)
 	userHandler := handler.NewUserHandler(userUsecase)
 
 	port := cfg.App.Port

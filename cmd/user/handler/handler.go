@@ -80,6 +80,33 @@ func (h *UserHandler) Register (c *gin.Context) {
 	})
 }
 
+func (h *UserHandler) Login(c *gin.Context) {
+	var param models.LoginParameter
+	if err := c.ShouldBindJSON(&param); err != nil {
+		log.Logger.Info(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error_message": "Invalid Input Parameter",
+		})
+
+		return
+	}
+
+	token, err := h.UserUsecase.Login(c.Request.Context(), param.Email, param.Password)
+	if err != nil {
+		log.Logger.Error(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Wrong Email or Password",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token": token,
+	})
+}
+
+
 func (h *UserHandler) Ping (c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status":"ok"})
 }

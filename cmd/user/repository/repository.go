@@ -22,6 +22,10 @@ func NewUserRepository(redis *redis.Client, db *gorm.DB) *UserRepository {
 	}
 }
 
+// GORM detects table automatically as changing type's name snake_case, and plural
+// ex) User -> users
+
+
 func (r *UserRepository) FindByEmail(ctx context.Context, email string) (*models.User, error) {
 	var user models.User
 	// with timeout context
